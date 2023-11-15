@@ -68,6 +68,43 @@ public class ListBookingDetail {
         }
     }
 
+    //Tim kiem
+    public void FineBookingDetails(int idBooking)
+    {
+        ArrayList<BookingDetail> bookingDetails = getListBooking();
+        for(BookingDetail bookingdetail : bookingDetails)
+        {
+            if(bookingdetail.getIdBooking() == idBooking)
+            {
+                bookingdetail.Output();
+            }
+        }
+    }
+
+    //Sua BookingDetail
+    public void EditRoomId(int idBooking)
+    {
+        Scanner sc = new Scanner(System.in);
+        ArrayList<BookingDetail> bookingDetails = getListBooking();
+        for(BookingDetail bookingdetail : bookingDetails)
+        {
+            if(bookingdetail.getIdBooking() == idBooking)
+            {
+                System.out.println("Nhap Id Room : ");
+                int idRoom = sc.nextInt();
+                bookingdetail.setIdRoom(idRoom);
+                for(BookingDetail bookingDetail1 : bookingDetails)
+                {
+                    if(bookingDetail1.getIdRoom() == idRoom)
+                    {
+                        bookingdetail.setCost(bookingDetail1.getCost());
+                    }
+                }
+            }
+        }
+        WriteToFile(bookingDetails,false);
+    }
+    
     public void WriteToFile(ArrayList<BookingDetail> bookingDetails,boolean isWrite)
     {
         try{
