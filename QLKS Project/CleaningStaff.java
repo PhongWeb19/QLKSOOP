@@ -48,7 +48,7 @@ public class CleaningStaff extends Staff{
             System.out.println("6. Edit Email");
             System.out.println("7. Edit phone number");
             System.out.println("8. Edit number of room");
-            System.out.println("9. Show All Customer's Information after Edit");
+            System.out.println("9. Show All Staff's Information after Edit");
             System.out.print("10. Finish");
             System.out.println();
             System.out.print("Enter your choice: ");
@@ -56,7 +56,14 @@ public class CleaningStaff extends Staff{
             switch (choice) {
                 case 1:
                     sc.nextLine();
-                    Input();
+                    sc.nextLine();
+                    setName(sc.nextLine());
+                    super.InputDateOfBirth();
+                    setGender(sc.nextLine());
+                    setAddress(sc.nextLine());
+                    setEmail(sc.nextLine());
+                    setPhoneNumber(sc.nextLine());
+                    setNumberOfRoom(sc.nextInt());
                     break;
                 case 2:
                     sc.nextLine();

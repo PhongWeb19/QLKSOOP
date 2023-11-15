@@ -61,7 +61,7 @@ public class Receptionist extends Staff{
             System.out.println("7. Edit phone number");
             System.out.println("8. Edit basic salary");
             System.out.println("9. Edit Coefficients salary");
-            System.out.println("10. Show All Customer's Information after Edit");
+            System.out.println("10. Show All Staff's Information after Edit");
             System.out.print("11. Finish");
             System.out.println();
             System.out.print("Enter your choice: ");
@@ -69,7 +69,14 @@ public class Receptionist extends Staff{
             switch (choice) {
                 case 1:
                     sc.nextLine();
-                    Input();
+                    setName(sc.nextLine());
+                    super.InputDateOfBirth();
+                    setGender(sc.nextLine());
+                    setAddress(sc.nextLine());
+                    setEmail(sc.nextLine());
+                    setPhoneNumber(sc.nextLine());
+                    setBaseSalary(sc.nextDouble());
+                    setCoefficientsSalary(sc.nextDouble());
                     break;
                 case 2:
                     sc.nextLine();

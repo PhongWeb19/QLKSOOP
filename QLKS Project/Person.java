@@ -196,7 +196,7 @@ public class Person {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String dateStr = dateFormat.format(getDoB());
         System.out.print(getId()+"  "+ getName()+"      "+ dateStr + "     " + getGender() + "     " + getAddress() + "    " + getEmail() + "    " + getPhoneNumber());
-        System.out.println();
+
     }
     private void ClearScreen(){
         System.out.print("\033[H\033[2J");
