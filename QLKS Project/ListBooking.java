@@ -94,6 +94,8 @@ public class ListBooking {
             return ;
         }
         UpdateFile(bookings, idBooking);
+        ListBookingDetail lbd = new ListBookingDetail();
+        lbd.DeleteBookingDetail(idBooking);
         if(check>=1){
             System.out.print("Deleted");
             sc.nextLine();
@@ -163,7 +165,6 @@ public class ListBooking {
                 if(changeChoice==2){
                     booking.setIdCustomer(changeID);
                 }
-                
             }
         }
         ClearScreen();
