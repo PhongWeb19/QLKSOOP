@@ -63,6 +63,8 @@ public class ListBooking {
     public void AddBooking(){
         Booking booking = new Booking();
         booking.Input();
+        ListBookingDetail lbd = new ListBookingDetail();
+        lbd.AddBookingDetals(booking.getIdBooking());
         try{
             FileWriter filewriter = new FileWriter("Bookings.txt",true);
             filewriter.write(booking.getIdBooking() + "\n");

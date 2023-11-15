@@ -38,11 +38,10 @@ public class ListBookingDetail {
     //Them booking detail
     public void AddBookingDetals(int idBooking)
     {
-        File file = new File("ListBooking.txt");
         BookingDetail BookingDetail = new BookingDetail();
         BookingDetail.Input();
         try{
-            FileWriter fileWriter = new FileWriter("ListBookingDetails.txt", true);
+            FileWriter fileWriter = new FileWriter("BookingDetails.txt", true);
             fileWriter.write(idBooking + "\n");
             fileWriter.write(BookingDetail.getIdRoom() + "\n");
             fileWriter.write(BookingDetail.getstartDay() + "\n");
@@ -71,9 +70,8 @@ public class ListBookingDetail {
 
     public void WriteToFile(ArrayList<BookingDetail> bookingDetails,boolean isWrite)
     {
-        File file = new File("ListBooking.txt");
         try{
-            FileWriter fileWriter = new FileWriter("ListBookingDetails.txt", isWrite);
+            FileWriter fileWriter = new FileWriter("BookingDetails.txt", isWrite);
             if(isWrite == false)
             {
                 isWrite = true;
