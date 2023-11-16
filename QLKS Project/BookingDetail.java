@@ -138,6 +138,6 @@ public class BookingDetail {
 
     public void Output()
     {
-        System.out.println("IdRoom: " + idRoom +" StartDay: + " + startDay +" EndDay: " + endDay+ "Cost: " + cost + "\n");
+        System.out.println("IdRoom: " + idRoom +" StartDay: " + startDay +" EndDay: " + endDay+ "Cost: " + cost + "\n");
     }
 }

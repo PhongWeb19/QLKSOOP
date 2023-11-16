@@ -26,12 +26,15 @@ public class ListBookingDetail {
     }
 
     //Xem danh sach booking
-    public void ShowListBooking()
+    public void ShowListBooking(int idBooking)
     {
         ArrayList<BookingDetail> ListBookingDetails = getListBooking();
         for(BookingDetail x : ListBookingDetails)
         {
-            x.Output();
+            if(x.getIdBooking() == idBooking)
+            {
+                x.Output();
+            }
         }
     }
 
@@ -69,7 +72,7 @@ public class ListBookingDetail {
     }
 
     //Tim kiem
-    public void FineBookingDetails(int idBooking)
+    public void FindBookingDetails(int idBooking)
     {
         ArrayList<BookingDetail> bookingDetails = getListBooking();
         for(BookingDetail bookingdetail : bookingDetails)
@@ -82,7 +85,7 @@ public class ListBookingDetail {
     }
 
     //Sua BookingDetail
-    public void EditRoomId(int idBooking)
+    public void EditRoomId(int idRoom,int idBooking)
     {
         Scanner sc = new Scanner(System.in);
         ArrayList<BookingDetail> bookingDetails = getListBooking();
@@ -90,8 +93,8 @@ public class ListBookingDetail {
         {
             if(bookingdetail.getIdBooking() == idBooking)
             {
+                System.out.println(bookingdetail.getIdBooking());
                 System.out.println("Nhap Id Room : ");
-                int idRoom = sc.nextInt();
                 bookingdetail.setIdRoom(idRoom);
                 for(BookingDetail bookingDetail1 : bookingDetails)
                 {
@@ -102,7 +105,7 @@ public class ListBookingDetail {
                 }
             }
         }
-        WriteToFile(bookingDetails,false);
+         WriteToFile(bookingDetails,false);
     }
     
     public void WriteToFile(ArrayList<BookingDetail> bookingDetails,boolean isWrite)
@@ -120,8 +123,9 @@ public class ListBookingDetail {
                 fileWriter.write(bookingDetail.getstartDay() + "\n");
                 fileWriter.write(bookingDetail.getendDay() + "\n");
                 fileWriter.write(bookingDetail.getCost() + "\n");            
-                fileWriter.close();
+                
             }
+            fileWriter.close();
         }
         catch (IOException e) {
             System.out.println("Error" + e.getMessage());

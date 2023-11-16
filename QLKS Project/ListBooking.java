@@ -93,9 +93,9 @@ public class ListBooking {
             sc.nextLine();
             return ;
         }
-        UpdateFile(bookings, idBooking);
         ListBookingDetail lbd = new ListBookingDetail();
         lbd.DeleteBookingDetail(idBooking);
+        UpdateFile(bookings, idBooking);
         if(check>=1){
             System.out.print("Deleted");
             sc.nextLine();
@@ -105,17 +105,19 @@ public class ListBooking {
     // Sửa Booking
     public void FixBooking(){
         Scanner sc = new Scanner(System.in);
+        ListBookingDetail lbd = new ListBookingDetail();
         ArrayList<Booking> bookings = getListBooking();
         ClearScreen();
         ShowListBooking();
         System.out.println();
-        System.out.print("Input ID Booing To Fix : ");
+        System.out.print("Input ID Booking To Fix : ");
         int idBooking = sc.nextInt();
         ClearScreen();
         for ( Booking booking : bookings){
             if(idBooking == booking.getIdBooking()){
                 System.out.println("ID Booking   ID Receptionist    ID Customer ");
                 booking.Output();
+                lbd.FindBookingDetails(idBooking);
             }
         }
         System.out.println();
@@ -124,6 +126,7 @@ public class ListBooking {
 
     private void FixBookingMenu(int idBooking){
         Scanner sc = new Scanner(System.in);
+        ListBookingDetail lbd = new ListBookingDetail();
         ArrayList<Booking> bookings = getListBooking();
         int isChoose = 0;
         int changeChoice = 0;
@@ -131,10 +134,10 @@ public class ListBooking {
             isChoose = 1;
             System.out.print("1. Change ID Receptionist. \n");
             System.out.print("2. Change ID Customer. \n");
-            // System.out.print("3.Change ID Booking .");
+            System.out.print("3.Change ID Room.\n");
             System.out.print("Please Input Your Order : ");
             changeChoice = sc.nextInt();
-            if(changeChoice < 0 || changeChoice > 2)
+            if(changeChoice < 0 || changeChoice > 3)
             {
                 isChoose = 0;
                 System.out.print("There Is No Choice Found !!");
@@ -153,6 +156,9 @@ public class ListBooking {
                 System.out.print("New ID Customer : ");
                 changeID = sc.nextInt();
                 break;
+            case 3 :
+                System.out.println("New ID Room: ");
+                changeID = sc.nextInt();
             default:
                 break;
         }
@@ -164,6 +170,10 @@ public class ListBooking {
                 }
                 if(changeChoice==2){
                     booking.setIdCustomer(changeID);
+                }
+                if(changeChoice==3)
+                {
+                    lbd.EditRoomId(changeID,idBooking);
                 }
             }
         }
@@ -191,6 +201,7 @@ public class ListBooking {
     // Tìm Booking
     public void FindBooking(){
         Scanner sc = new Scanner(System.in);
+        ListBookingDetail lbd = new ListBookingDetail();
         ArrayList<Booking> bookings = getListBooking();
         System.out.print("Input ID Booking To Find : ");
         int idBooking = sc.nextInt();
@@ -199,8 +210,23 @@ public class ListBooking {
             if(idBooking == booking.getIdBooking()){
                 System.out.println("ID Booking    ID Receptionist    ID Customer");
                 booking.Output();
-                sc.nextLine();
-                sc.nextLine();
+                int choice = 0;
+                do{
+                    System.out.println("1:Show more");
+                    System.out.println("2:Return");
+                    System.out.printf("Nhap lua chon: ");
+                    choice = sc.nextInt();
+                    ClearScreen();
+                    switch (choice) {
+                        case 1:
+                            
+                            lbd.ShowListBooking(idBooking);
+                            break;
+                    
+                        default:
+                            break;
+                    }
+                }while(choice==1);
                 return;
             }
         }
@@ -212,7 +238,7 @@ public class ListBooking {
     public void BookingMenu(){
         Scanner sc = new Scanner(System.in);
         do{
-            ClearScreen();
+            // ClearScreen();
             ShowListBooking();
             System.out.println();
             System.out.println("1 : Add Booking");
