@@ -18,7 +18,7 @@ public class ListBooking {
         System.out.flush();
     }
     // Lấy danh sách Booking
-    private ArrayList<Booking> getListBooking(){
+    public ArrayList<Booking> getListBooking(){
         ArrayList<Booking> bookings = new ArrayList<>();
         File file = new File("Bookings.txt");
         try{
@@ -36,28 +36,36 @@ public class ListBooking {
     public void ShowListBooking(){
         ArrayList<Booking> bookings = getListBooking();
         Scanner sc = new Scanner(System.in);
-        System.out.print("ID Booking    ID Receptionist   ID Customer\n");
+        System.out.println("ID Booking    ID Receptionist   ID Customer");
         for(Booking booking : bookings)
         {
             booking.Output();
         }
     }
 
-    private void UpdateFile(ArrayList<Booking> bookings, int idBooking){
-        try {
-            FileWriter fileWriter = new FileWriter("Bookings.txt", false);
-            for(Booking booking : bookings){
-                if(idBooking != booking.getIdBooking()){
-                    fileWriter.write(booking.getIdBooking() + "\n");
-                    fileWriter.write(booking.getIdReceptionist() + "\n");
-                    fileWriter.write(booking.getIdCustomer() + "\n");
-                }   
+    private void UpdateFile(ArrayList<Booking> bookings, boolean isWrite){
+        try{
+            FileWriter fileWriter = new FileWriter("Bookings.txt", isWrite);
+            if(isWrite == false)
+            {
+                isWrite = true;
+            }
+            for(Booking booking: bookings)
+            {
+                fileWriter.write(booking.getIdBooking() + "\n");
+                fileWriter.write(booking.getIdReceptionist() + "\n");
+                fileWriter.write(booking.getIdCustomer() + "\n");       
+                
             }
             fileWriter.close();
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             System.out.println("Error" + e.getMessage());
         }
     }
+    
+
+    
 
     // Thêm Booking
     public void AddBooking(){
@@ -85,7 +93,9 @@ public class ListBooking {
         int check = 0;
         for(Booking booking : bookings){
             if(idBooking == booking.getIdBooking()){
+                bookings.remove(booking);
                 check++;
+                break;
             }
         } 
         if(check == 0){
@@ -93,10 +103,11 @@ public class ListBooking {
             sc.nextLine();
             return ;
         }
+        UpdateFile(bookings, false);
         ListBookingDetail lbd = new ListBookingDetail();
         lbd.DeleteBookingDetail(idBooking);
-        UpdateFile(bookings, idBooking);
-        if(check>=1){
+        
+        if(check >= 1){
             System.out.print("Deleted");
             sc.nextLine();
         }
@@ -238,7 +249,7 @@ public class ListBooking {
     public void BookingMenu(){
         Scanner sc = new Scanner(System.in);
         do{
-            // ClearScreen();
+            ClearScreen();
             ShowListBooking();
             System.out.println();
             System.out.println("1 : Add Booking");

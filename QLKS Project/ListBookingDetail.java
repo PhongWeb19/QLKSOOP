@@ -66,9 +66,11 @@ public class ListBookingDetail {
             if(bookingdetail.getIdBooking() == idBooking)
             {
                 bookingDetails.remove(bookingdetail);
-                WriteToFile(bookingDetails,false);
+                
+                break;
             }
         }
+        WriteToFile(bookingDetails,false);
     }
 
     //Tim kiem
