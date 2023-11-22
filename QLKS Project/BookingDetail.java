@@ -1,4 +1,5 @@
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 public class BookingDetail {
@@ -123,11 +124,55 @@ public class BookingDetail {
         return dateStr;
     }
 
+    public void OutputListRoom()
+    {
+        ListRoom a = new ListRoom();
+        a.ShowListRoom();
+    }
+
+    public boolean chekcIDRoom(int idRoom)
+    {
+        ListRoom a = new ListRoom();
+        ArrayList<Room> c = new ArrayList<>();
+        c = a.getListRoom(); 
+        for(Room x: c)
+        {
+            if( x.getIdRoom()== idRoom )
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    private void ClearScreen(){
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
     public void Input()
     {
         Scanner sc = new Scanner(System.in);
-        System.out.println("Input idRoom: ");
-        this.idRoom = sc.nextInt();
+        int choice = 1;
+        do{
+            OutputListRoom();
+            System.out.print("Input idRoom: ");
+            this.idRoom = sc.nextInt();
+            System.out.println();
+            if(!chekcIDRoom(this.idRoom))
+            {
+                ClearScreen();
+                System.out.println("Id Not Found!!");
+                sc.nextLine();
+                sc.nextLine();
+                ClearScreen();
+                choice = 2;
+            }
+            else
+            {
+                choice = 1;
+                ClearScreen();
+            }
+        }while(choice != 1);
         System.out.println("Input StartDay: ");
         startDay=InputDate();
         System.out.println("Input EndDay: ");
@@ -138,6 +183,11 @@ public class BookingDetail {
 
     public void Output()
     {
-        System.out.println("IdRoom: " + idRoom +" StartDay: " + startDay +" EndDay: " + endDay+ "Cost: " + cost + "\n");
+        System.out.printf("%1s %15s %16s %15s" ,"IdRoom","StartDay","EndDay","Cost");
+        System.out.println();
+        System.out.printf("%5s %17s %18s %11s",idRoom,startDay,endDay,cost);
+        System.out.println();
     }
+
+    
 }

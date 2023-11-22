@@ -18,7 +18,7 @@ public class ListCustomer {
         System.out.flush();
     }
     // //Lay danh sach khach hang tu file
-    private ArrayList<Customer> GetListCustomer()
+    public ArrayList<Customer> GetListCustomer()
     {
         ArrayList<Customer> customers = new ArrayList<>();
         File file = new File("Customers.txt");

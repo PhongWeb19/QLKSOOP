@@ -61,22 +61,129 @@ public class Booking {
 
     }
 
+    public void OutputReceptionist()
+    {
+        ListStaff a = new ListStaff();
+        ArrayList<Staff> c = new ArrayList<>();
+        c=a.GetListReceptionist();   
+        a.ShowListStaff(c);
+    }
+
+    public void OutputCustomer()
+    {
+        ListCustomer a = new ListCustomer();
+        a.ShowAllListCustomer();
+    }
+
+    public boolean checkIDReceptionist(int idReceptionist)
+    {
+        ListStaff a = new ListStaff();
+        ArrayList<Staff> c = new ArrayList<>();
+        c=a.GetListReceptionist(); 
+        for(Staff x: c)
+        {
+            if(x.getId() == idReceptionist )
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean checkIDCustomer(int idCustomer)
+    {
+         ListCustomer a = new ListCustomer();
+         ArrayList<Customer> c = new ArrayList<>();
+         c= a.GetListCustomer();   
+        for(Customer x: c)
+        {
+            if(x.getId() == idCustomer )
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    private void ClearScreen(){
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+    public void checkInputIdReceptionist()
+    {
+        Scanner sc = new Scanner(System.in);
+        int choice = 1;
+        do{ 
+            OutputReceptionist();
+            System.out.print("ID Receptionist : ");
+            idReceptionist = sc.nextInt();
+            if(!checkIDReceptionist(idReceptionist))
+            {
+                ClearScreen();
+                System.out.println("Id Not Found!!");
+                sc.nextLine();
+                sc.nextLine();
+                ClearScreen();
+                choice = 2;
+                OutputReceptionist();
+            }
+            else
+            {
+                choice = 1;
+                ClearScreen();
+            }
+        }while(choice != 1);
+    }
+    public void checkInputIdCustomer()
+    {
+        Scanner sc = new Scanner(System.in);
+        int choice = 1;
+         do{
+            
+            OutputCustomer();
+            System.out.print("ID Customer : ");
+            idCustomer = sc.nextInt();
+            if(!checkIDCustomer(idCustomer))
+            {
+                ClearScreen();
+                System.out.println("Id Not Found!!");
+                sc.nextLine();
+                sc.nextLine();
+                ClearScreen();
+                choice = 2;
+            }
+            else
+            {
+                setIdBooking();
+                idBooking = getIdBooking();
+                choice = 1;
+                ClearScreen();
+            }
+        }while(choice != 1);
+    }
     public void Input(){
         Scanner sc = new Scanner(System.in);
-        System.out.print("ID Receptionist : ");
-        idReceptionist = sc.nextInt();
-        // ArrayList < ListStaff > liststaffs = GetListReceptionist() ;    
-        // for (ListStaff ls : lss ){
-
-        // }
-        System.out.print("ID Customer : ");
-        idCustomer = sc.nextInt();
-        setIdBooking();
-        idBooking = getIdBooking();
+        checkInputIdReceptionist();
+        checkInputIdCustomer();
     }
 
     public void Output(){
-        System.out.println("     " + getIdBooking() + "              " + getIdReceptionist()+ "             "+getIdCustomer());
+        System.out.printf("%-3s %-16s %-15s %-20s","",getIdBooking(),getIdReceptionist(),getIdCustomer());
+        System.out.println();
     }
 
+    public void OutputAll(int idBooking)
+    {
+        ListBookingDetail listBookingDetail = new ListBookingDetail();
+        ArrayList<BookingDetail> listBookings = new ArrayList<>();
+        listBookings = listBookingDetail.getListBooking();
+        for(BookingDetail x : listBookings)
+        {
+            if(x.getIdBooking() == idBooking)
+            {
+                System.out.printf("%-3s %-16s %-15s %-14s","",getIdBooking(),getIdReceptionist(),getIdCustomer());
+                System.out.printf("%-6s %-12s %-12s %-12s",x.getIdRoom(),x.getstartDay(),x.getendDay(),x.getCost());
+                System.out.println();
+            }
+        }
+        
+    }
 }

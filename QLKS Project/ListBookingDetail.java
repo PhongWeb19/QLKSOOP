@@ -38,9 +38,11 @@ public class ListBookingDetail {
         }
     }
 
+    
     //Them booking detail
     public void AddBookingDetals(int idBooking)
     {
+        
         BookingDetail BookingDetail = new BookingDetail();
         BookingDetail.Input();
         try{
