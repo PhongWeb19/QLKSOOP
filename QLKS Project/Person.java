@@ -142,7 +142,7 @@ public class Person {
         }
     }
 
-    private void InputGender(){
+    public void InputGender(){
         Scanner sc = new Scanner(System.in);
         int check;
         do{
@@ -158,7 +158,7 @@ public class Person {
         }while(check == 0);
     }
 
-    private void InputPhoneNumber(){
+    public void InputPhoneNumber(){
         Scanner sc = new Scanner(System.in);
         int check;
         do{
@@ -195,8 +195,7 @@ public class Person {
         Scanner sc = new Scanner(System.in);
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String dateStr = dateFormat.format(getDoB());
-        System.out.print(getId()+"  "+ getName()+"      "+ dateStr + "     " + getGender() + "     " + getAddress() + "    " + getEmail() + "    " + getPhoneNumber());
-
+        System.out.printf("%-5s %-10s %-15s %-10s %-20s %-15s %-15s",getId(),getName(),dateStr,getGender(),getAddress(),getEmail(),getPhoneNumber());
     }
     private void ClearScreen(){
         System.out.print("\033[H\033[2J");
@@ -208,6 +207,7 @@ public class Person {
         p.Input();
         p.Output();
     }
+
 
 }
 

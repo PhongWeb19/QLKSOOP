@@ -8,149 +8,21 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 public class ListStaff {
-    int quantityStaff;
     ArrayList<Staff> staffs = new ArrayList<Staff>();
-
+    private int innerFile = 0;
     public ListStaff() {
     }
 
+    private int inner = 0;
+
     private void ClearScreen(){
-        //System.out.print("\033[H\033[2J");
-        //System.out.flush();
-        for(int i =0; i< 50;i++){
-            System.out.println();
-        }
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 
-    public ListStaff(int quantity, ArrayList<Staff> staffs) {
-        this.quantityStaff = quantity;
+    public ListStaff(ArrayList<Staff> staffs) {
         this.staffs = staffs;
     }
-
-    /// XUẤT DANH SÁCH NHÂN VIÊN
-    public  void OutputStaffs(ArrayList<Staff> staffs) {
-        for (Staff st : staffs) {
-            if (st instanceof Security) {
-                Security s =(Security)st ;
-                s.Output();
-            } else if (st instanceof Receptionist) {
-                Receptionist r =(Receptionist)st;
-                r.Output();
-            } else if(st instanceof  CleaningStaff){
-                CleaningStaff c =(CleaningStaff)st;
-                c.Output();
-            }
-        }
-    }
-
-    /// GHI VÀO FILE
-    private void WriteToStaff(ArrayList<Staff> staffs, boolean isWrite){
-        for(Staff staff : staffs){
-            if (staff instanceof CleaningStaff) {
-                try {
-                    FileWriter fileWriter = new FileWriter("CleaningStaffs.txt", isWrite);
-                    if(!isWrite) isWrite = true;
-                    fileWriter.write(staff.getId() + "\n");
-                    fileWriter.write(staff.getName() + "\n");
-                    fileWriter.write(staff.getDoBstr() + "\n");
-                    fileWriter.write(staff.getGender() + "\n");
-                    fileWriter.write(staff.getAddress() + "\n");
-                    fileWriter.write(staff.getEmail() + "\n");
-                    fileWriter.write(staff.getPhoneNumber() + "\n");
-                    fileWriter.write(((CleaningStaff) staff).getNumberOfRoom() + "\n");
-                    fileWriter.write(staff.PayRoll() + "\n");
-                    fileWriter.close();
-                }catch (IOException e){
-                    System.out.println("Error " + e.getMessage());
-                }
-            }
-            if (staff instanceof Security) {
-                try {
-                    FileWriter fileWriter = new FileWriter("Securities.txt", isWrite);
-                    if(!isWrite) isWrite = true;
-                    fileWriter.write(staff.getId() + "\n");
-                    fileWriter.write(staff.getName() + "\n");
-                    fileWriter.write(staff.getDoBstr() + "\n");
-                    fileWriter.write(staff.getGender() + "\n");
-                    fileWriter.write(staff.getAddress() + "\n");
-                    fileWriter.write(staff.getEmail() + "\n");
-                    fileWriter.write(staff.getPhoneNumber() + "\n");
-                    fileWriter.write((((Security) staff).getNumberDayOfWork()) + "\n");
-                    fileWriter.write(staff.PayRoll() + "\n");
-                    fileWriter.close();
-                }catch (IOException e){
-                    System.out.println("Error " + e.getMessage());
-                }
-            }
-            else if(staff instanceof Receptionist){
-                try {
-                    FileWriter fileWriter = new FileWriter("Receptionists.txt", isWrite);
-                    if(!isWrite) isWrite = true;
-                    fileWriter.write(staff.getId() + "\n");
-                    fileWriter.write(staff.getName() + "\n");
-                    fileWriter.write(staff.getDoBstr() + "\n");
-                    fileWriter.write(staff.getGender() + "\n");
-                    fileWriter.write(staff.getAddress() + "\n");
-                    fileWriter.write(staff.getEmail() + "\n");
-                    fileWriter.write(staff.getPhoneNumber() + "\n");
-                    fileWriter.write((((Receptionist) staff).getBaseSalary()) + "\n");
-                    fileWriter.write(((Receptionist) staff).getCoefficientsSalary() + "\n");
-                    fileWriter.write(staff.PayRoll() + "\n");
-                    fileWriter.close();
-                }catch (IOException e){
-                    System.out.println("Error " + e.getMessage());
-                }
-            }
-        }
-    }
-
-    public static void main(String[] args){
-
-        ListStaff l = new ListStaff();
-        l.StaffMenu();
-
-    }
-
-    /// MENU NHÂN VIÊN
-    public void StaffMenu(){
-        int roomChoice = 0;
-        do{
-            ClearScreen();
-            Scanner sc = new Scanner(System.in);
-            ShowAllListStaff();
-            System.out.println();
-            System.out.println("1 : Add Staff");
-            System.out.println("2 : Delete Staff");
-            System.out.println("3 : Edit Staff");
-            System.out.println("4 : Find Staff");
-            System.out.println("5 : Return");
-            System.out.println();
-            System.out.print("Please Input Your Choice : ");
-            roomChoice = sc.nextInt();
-            switch (roomChoice) {
-                case 1:
-                    ClearScreen();
-                    AddStaff();
-                    break;
-                case 2:
-                    ClearScreen();
-                    RemoveStaff();
-                    break;
-                case 3 :
-                    ClearScreen();
-                    EditStaffs();
-                    break;
-                case 4:
-                    ClearScreen();
-                    FindStaffs();
-                    break;
-                default:
-                    break;
-            }
-            sc.nextLine();
-        }while(roomChoice != 5);
-    }
-
     /// LẤY DANH SÁCH NHÂN VIÊN DỌN DẸP
     public ArrayList<Staff> GetListCleaningStaff(){
         ArrayList<Staff> staffs = new ArrayList<>();
@@ -227,10 +99,14 @@ public class ListStaff {
         int choice=sc.nextInt();
         switch (choice){
             case 1:
+
+                innerFile = 1;
                 return GetListCleaningStaff();
             case 2:
+                innerFile = 2;
                 return GetListSecurity();
             case 3:
+                innerFile = 3;
                 return GetListReceptionist();
         }
 
@@ -238,49 +114,104 @@ public class ListStaff {
     }
 
     /// XUẤT DANH SÁCH NHÂN VIÊN BẤT KỲ
-    public void ShowListStaff(ArrayList<Staff> staffs){
+    public void ShowListStaff(ArrayList<Staff> staffs) {
         for (Staff staff : staffs) {
-            if (staff instanceof Security) {
-                Security s =(Security)staff ;
-                s.Output();
-            } else if (staff instanceof Receptionist) {
-                Receptionist r =(Receptionist)staff;
-                r.Output();
-            } else if(staff instanceof  CleaningStaff){
-                CleaningStaff c =(CleaningStaff)staff;
-                c.Output();
-            }
+            staff.Output();
         }
     }
-
     /// XUẤT DANH SÁCH TẤT CẢ NHÂN VIÊN
     public void ShowAllListStaff(){
         ArrayList<Staff> cs = GetListCleaningStaff();
-        System.out.println("---- Cleaning Staff List 1----");
+        System.out.println("---- Cleaning Staff ----");
+        System.out.println();
+        System.out.printf("%-5s %-10s %-15s %-10s %-20s %-15s %-15s %-15s %-20s\n", "ID", "Name", "Date of Birth", "Gender","Address", "Email", "Phone Number", "Number Of Room", "Salary");
         ShowListStaff(cs);
         System.out.println();
         ArrayList<Staff> sc = GetListSecurity();
-        System.out.println("---- Security List 2----");
+        System.out.println("---- Security ----");
+        System.out.println();
+        System.out.printf("%-5s %-10s %-15s %-10s %-20s %-15s %-15s %-15s %-20s\n", "ID", "Name", "Date of Birth", "Gender","Address", "Email", "Phone Number", "Day of Work", "Salary");
         ShowListStaff(sc);
         System.out.println();
         ArrayList<Staff> rc = GetListReceptionist();
-        System.out.println("---- Receptionist List 3----");
+        System.out.println("---- Receptionist ----");
+        System.out.println();
+        System.out.printf("%-5s %-10s %-15s %-10s %-20s %-15s %-15s %-15s %-25s %-20s\n", "ID", "Name", "Date of Birth", "Gender","Address", "Email", "Phone Number", "baseSalary","coefficientsSalary", "Salary");
         ShowListStaff(rc);
     }
-
+    /// GHI VÀO FILE
+    private void WriteToStaff(ArrayList<Staff> staffs, boolean isWrite){
+        Scanner sc = new Scanner(System.in);
+        try{
+            for(Staff staff : staffs){
+                if (innerFile == 1) {
+                    System.out.println("A");
+                    sc.nextLine();
+                    sc.nextLine();
+                    FileWriter fileWriter = new FileWriter("CleaningStaffs.txt", isWrite);
+                    if(!isWrite) isWrite = true;
+                    fileWriter.write(staff.getId() + "\n");
+                    fileWriter.write(staff.getName() + "\n");
+                    fileWriter.write(staff.getDoBstr() + "\n");
+                    fileWriter.write(staff.getGender() + "\n");
+                    fileWriter.write(staff.getAddress() + "\n");
+                    fileWriter.write(staff.getEmail() + "\n");
+                    fileWriter.write(staff.getPhoneNumber() + "\n");
+                    fileWriter.write(((CleaningStaff) staff).getNumberOfRoom() + "\n");
+                    fileWriter.write(staff.PayRoll() + "\n");
+                    fileWriter.close();
+                }
+                if (innerFile == 2) {
+                    System.out.println("B");
+                    FileWriter fileWriter = new FileWriter("Securities.txt", isWrite);
+                    if(!isWrite) isWrite = true;
+                    fileWriter.write(staff.getId() + "\n");
+                    fileWriter.write(staff.getName() + "\n");
+                    fileWriter.write(staff.getDoBstr() + "\n");
+                    fileWriter.write(staff.getGender() + "\n");
+                    fileWriter.write(staff.getAddress() + "\n");
+                    fileWriter.write(staff.getEmail() + "\n");
+                    fileWriter.write(staff.getPhoneNumber() + "\n");
+                    fileWriter.write((((Security) staff).getNumberDayOfWork()) + "\n");
+                    fileWriter.write(staff.PayRoll() + "\n");
+                    fileWriter.close();
+                }
+                else if(innerFile == 3){
+                    System.out.println("C");
+                    FileWriter fileWriter = new FileWriter("Receptionists.txt", isWrite);
+                    if(!isWrite) isWrite = true;
+                    fileWriter.write(staff.getId() + "\n");
+                    fileWriter.write(staff.getName() + "\n");
+                    fileWriter.write(staff.getDoBstr() + "\n");
+                    fileWriter.write(staff.getGender() + "\n");
+                    fileWriter.write(staff.getAddress() + "\n");
+                    fileWriter.write(staff.getEmail() + "\n");
+                    fileWriter.write(staff.getPhoneNumber() + "\n");
+                    fileWriter.write((((Receptionist) staff).getBaseSalary()) + "\n");
+                    fileWriter.write(((Receptionist) staff).getCoefficientsSalary() + "\n");
+                    fileWriter.write(staff.PayRoll() + "\n");
+                    fileWriter.close();
+                }
+                else {
+                    FileWriter fileWriter = new FileWriter("Receptionists.txt", isWrite);
+                    fileWriter.close();
+                }
+            }
+        }catch (IOException e){
+            System.out.println("Error " + e.getMessage());
+        }
+    }
     /// THÊM NHÂN VIÊN
     public void AddStaff() {
         Scanner sc = new Scanner(System.in);
-        System.out.print("Enter quantity staff: ");
-        quantityStaff = sc.nextInt();
-        for (int i = 0; i < quantityStaff; i++) {
-            int choice;
+        int choice;
             System.out.println("Choice Type of Staff");
             System.out.println("1 : Cleaning Staff");
             System.out.println("2 : Security");
             System.out.println("3 : Receptionist");
             System.out.print("Enter your choice: ");
             choice = sc.nextInt();
+            ClearScreen();
             switch (choice) {
                 case 1:
                     CleaningStaff cl = new CleaningStaff();
@@ -300,70 +231,33 @@ public class ListStaff {
                     break;
                 default:
                     System.out.println("Error. Retry pls!!");
-                    i--;
-                    continue;
+                    break;
             }
-        }
-        WriteToStaff(staffs, false);
+        WriteToStaff(staffs, true);
     }
-
-    ///XÓA NHÂN VIÊN
-    public void RemoveStaff(){
-        ArrayList<Staff> staffs = new ArrayList<>();
-        System.out.println("----Remove List----- ");
-        staffs = GetList();
-        ClearScreen();
-        ShowListStaff(staffs);
-        System.out.println();
-        System.out.println("----Remove By----- ");
-        System.out.println();
-        Staff staff = FindStaff(staffs);
-        staffs.remove(staff);
-        WriteToStaff(staffs, false);
-    }
-
-    /// CHỈNH SỬA NHÂN VIÊN
-
-    public void EditStaffs(){
-        Scanner reader = new Scanner(System.in);
-        ArrayList<Staff> staffs = new ArrayList<>();
-        System.out.println("----Edit----- ");
-        System.out.println();
-        staffs = GetList();
-        ShowListStaff(staffs);
-        ClearScreen();
-        System.out.println("----Edit By----- ");
-        Staff st = FindStaff(staffs);
-        staffs.remove(st);
-        if(st instanceof  Security){
-            st.EditStaff();
-        }else if(st instanceof CleaningStaff){
-            st.EditStaff();
-        }
-        else if(st instanceof Receptionist){
-            st.EditStaff();
-        }
-        staffs.add(st);
-        WriteToStaff(staffs, false);
-    }
-
     /// TÌM NHÂN VIÊN
     public Staff FindStaff(ArrayList<Staff> staffs){
         Scanner sc= new Scanner(System.in);
         System.out.println("1 : ID");
         System.out.println("2 : Name ");
         System.out.println("3 : Phone Number");
+        System.out.println();
         System.out.print("Enter choice: ");
         int choice = sc.nextInt();
+        ClearScreen();
+        ShowListStaff(staffs);
+        System.out.println();
         switch(choice){
             case 1:
                 System.out.print("Enter ID : ");
                 int idNeedFind = sc.nextInt();
+                ClearScreen();
                 for(Staff staff : staffs){
                     if(idNeedFind == staff.getId()) {
                         return staff;
                     }
                 }
+                ClearScreen();
                 System.out.println("ID is not Found");
                 sc.nextLine();
                 sc.nextLine();
@@ -372,6 +266,7 @@ public class ListStaff {
                 sc.nextLine();
                 System.out.print("Enter Name : ");
                 String nameNeedFind = sc.nextLine();
+                ClearScreen();
                 for(Staff staff:staffs){
                     if(staff.getName().equals(nameNeedFind)) {
                         return staff;
@@ -384,6 +279,7 @@ public class ListStaff {
                 sc.nextLine();
                 System.out.print("Enter Phone Number : ");
                 String phoneNumBerNeedFind = sc.nextLine();
+                ClearScreen();
                 for(Staff staff:staffs){
                     if(staff.getPhoneNumber().equals(phoneNumBerNeedFind)) {
                         return staff;
@@ -411,11 +307,17 @@ public class ListStaff {
             }
             ClearScreen();
         }while(check == 0);
-        if(reChoice == 2) return FindStaff(staffs);
+        if(reChoice == 2)  {
+
+            if(inner == 1) RemoveStaff();
+            else if(inner == 2) EditStaffs();
+            else if(inner == 3) FindAndShowStaffs();
+        }
         return null;
     }
-
-    public void FindStaffs(){
+    //Sau khi tim nhân viên , show thông tin
+    public void FindAndShowStaffs(){
+        inner = 3;
         Scanner sc = new Scanner(System.in);
         System.out.println("---- Find ----");
         ArrayList<Staff> staffs = GetList();
@@ -429,5 +331,111 @@ public class ListStaff {
         staff.Output();
         sc.nextLine();
     }
+    ///XÓA NHÂN VIÊN
+    public void RemoveStaff(){
+        inner = 1;
+        ArrayList<Staff> staffs = new ArrayList<>();
+        System.out.println("----Remove List----- ");
+        staffs = GetList();
+        ClearScreen();
+        ShowListStaff(staffs);
+        System.out.println();
+        System.out.println("----Remove By----- ");
+        System.out.println();
+        Staff staff = FindStaff(staffs);
+        staffs.remove(staff);
+        WriteToStaff(staffs, false);
+    }
+
+    /// CHỈNH SỬA NHÂN VIÊN
+
+    public void EditStaffs(){
+        inner = 2;        ArrayList<Staff> staffs = new ArrayList<>();
+        System.out.println("----Edit----- ");
+        staffs = GetList();
+        ClearScreen();
+        ShowListStaff(staffs);
+        System.out.println();
+        System.out.println("----Edit By----- ");
+        Staff st = FindStaff(staffs);
+
+        if(st instanceof  Security){
+            st.EditStaff();
+        }else if(st instanceof CleaningStaff){
+            st.EditStaff();
+        }
+        else if(st instanceof Receptionist){
+            st.EditStaff();
+        }
+
+        WriteToStaff(staffs, false);
+    }
+
+
+    /// XUẤT DANH SÁCH NHÂN VIÊN
+    public  void OutputStaffs(ArrayList<Staff> staffs) {
+        for (Staff st : staffs) {
+            if (st instanceof Security) {
+                Security s =(Security)st ;
+                s.Output();
+            } else if (st instanceof Receptionist) {
+                Receptionist r =(Receptionist)st;
+                r.Output();
+            } else if(st instanceof  CleaningStaff){
+                CleaningStaff c =(CleaningStaff)st;
+                c.Output();
+            }
+        }
+    }
+
+
+
+    public static void main(String[] args){
+
+        ListStaff l = new ListStaff();
+        l.StaffMenu();
+
+    }
+
+    /// MENU NHÂN VIÊN
+    public void StaffMenu(){
+        int roomChoice = 0;
+        do{
+            ClearScreen();
+            Scanner sc = new Scanner(System.in);
+            ShowAllListStaff();
+            System.out.println();
+            System.out.println("1 : Add Staff");
+            System.out.println("2 : Delete Staff");
+            System.out.println("3 : Edit Staff");
+            System.out.println("4 : Find Staff");
+            System.out.println("5 : Return");
+            System.out.println();
+            System.out.print("Please Input Your Choice : ");
+            roomChoice = sc.nextInt();
+            switch (roomChoice) {
+                case 1:
+                    ClearScreen();
+                    AddStaff();
+                    break;
+                case 2:
+                    ClearScreen();
+                    RemoveStaff();
+                    break;
+                case 3 :
+                    ClearScreen();
+                    EditStaffs();
+                    break;
+                case 4:
+                    ClearScreen();
+                    FindAndShowStaffs();
+                    break;
+                default:
+                    break;
+            }
+            sc.nextLine();
+        }while(roomChoice != 5);
+    }
+
 }
 

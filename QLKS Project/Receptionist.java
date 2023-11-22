@@ -31,6 +31,12 @@ public class Receptionist extends Staff{
     public void setCoefficientsSalary(double coefficientsSalary) {
         this.coefficientsSalary = coefficientsSalary;
     }
+
+    private void ClearScreen(){
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
     public void Input(){
         Scanner sc=new Scanner(System.in);
         super.Input();
@@ -42,7 +48,7 @@ public class Receptionist extends Staff{
     public void Output(){
         Scanner sc = new Scanner(System.in);
         super.Output();
-        System.out.println(getBaseSalary()+"\t" + getCoefficientsSalary() + "\t" + PayRoll() + " VND");
+        System.out.printf("%-2s %-15s %-5s %-17s %-20s\n","",getBaseSalary(),"",getCoefficientsSalary(),PayRoll());
     }
     @Override public double PayRoll(){
         return coefficientsSalary*baseSalary;
@@ -51,6 +57,9 @@ public class Receptionist extends Staff{
         Scanner sc=new Scanner(System.in);
         int choice;
         do {
+            ClearScreen();
+            Output();
+            System.out.println();
             System.out.println("What do you want to do? ");
             System.out.println("1. Edit All Information");
             System.out.println("2. Edit Name");
@@ -61,21 +70,28 @@ public class Receptionist extends Staff{
             System.out.println("7. Edit phone number");
             System.out.println("8. Edit basic salary");
             System.out.println("9. Edit Coefficients salary");
-            System.out.println("10. Show All Staff's Information after Edit");
-            System.out.print("11. Finish");
+            System.out.print("10. Finish");
             System.out.println();
             System.out.print("Enter your choice: ");
             choice = sc.nextInt();
+            ClearScreen();
             switch (choice) {
                 case 1:
                     sc.nextLine();
+                    System.out.print("Enter new Name: ");
                     setName(sc.nextLine());
                     super.InputDateOfBirth();
-                    setGender(sc.nextLine());
+                    System.out.print("Enter new Gender: ");
+                    InputGender();
+                    System.out.print("Enter new Address: ");
                     setAddress(sc.nextLine());
+                    System.out.print("Enter new Email: ");
                     setEmail(sc.nextLine());
-                    setPhoneNumber(sc.nextLine());
+                    System.out.print("Enter new phone number: ");
+                    InputPhoneNumber();
+                    System.out.print("Enter new basic salary: ");
                     setBaseSalary(sc.nextDouble());
+                    System.out.print("Enter new coefficients salary: ");
                     setCoefficientsSalary(sc.nextDouble());
                     break;
                 case 2:
@@ -91,7 +107,7 @@ public class Receptionist extends Staff{
                 case 4:
                     sc.nextLine();
                     System.out.print("Enter new Gender: ");
-                    setGender(sc.nextLine());
+                    InputGender();
                     break;
                 case 5:
                     sc.nextLine();
@@ -106,7 +122,7 @@ public class Receptionist extends Staff{
                 case 7:
                     sc.nextLine();
                     System.out.print("Enter new phone number: ");
-                    setPhoneNumber(sc.nextLine());
+                    InputPhoneNumber();
                     break;
                 case 8:
                     System.out.print("Enter new basic salary: ");
@@ -117,11 +133,6 @@ public class Receptionist extends Staff{
                     setCoefficientsSalary(sc.nextDouble());
                     break;
                 case 10:
-                    Output();
-                    sc.nextLine();
-                    sc.nextLine();
-                    break;
-                case 11:
                     System.out.println("Edit Finished!");
                     break;
                 default:

@@ -51,6 +51,7 @@ public class ListCustomer {
     public void ShowAllListCustomer(){
         ArrayList<Customer> customers = GetListCustomer();
         System.out.println("---- List Customer----");
+        System.out.printf("%-5s %-10s %-15s %-10s %-20s %-15s %-15s\n", "ID", "Name", "Date of Birth", "Gender","Address", "Email", "Phone Number");
         ShowListCustomer(customers);
         System.out.println();
     }

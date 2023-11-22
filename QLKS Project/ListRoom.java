@@ -18,7 +18,7 @@ public class ListRoom{
     }
 
     /// LẤY DANH SÁCH CÁC PHÒNG
-    private ArrayList<Room> getListRoom(){
+    public ArrayList<Room> getListRoom(){
         ArrayList<Room> rooms = new ArrayList<>();
         File file = new File("Rooms.txt");
         try{
@@ -36,58 +36,156 @@ public class ListRoom{
     public void ShowListRoom(){
         ArrayList<Room> rooms = getListRoom();
         Scanner sc =new Scanner(System.in);
-        System.out.println("ID    Name       Cost          Status");
+        System.out.printf("%-10s %-15s %-15s %-10s\n","ID Room", "Name Room", "Cost", "Status");
         for(Room room : rooms){
             room.OutputRoom();
         }
     }
 
-    private void UpdateFile(ArrayList<Room> rooms){
-            try {
-                FileWriter fileWriter = new FileWriter("Rooms.txt", false);
-                for(Room room : rooms){
-                    fileWriter.write(room.getIdRoom() + "\n");
-                    fileWriter.write(room.getNameRoom() + "\n");
-                    fileWriter.write(room.getCostRoom() + "\n");
-                    fileWriter.write(room.getRoomStatus() + "\n");
-                }
-                fileWriter.close();
-            } catch (IOException e) {
-                System.out.println("Error" + e.getMessage());
-            }
+    public void ShowRoom(Room room){
+        ArrayList<Room> rooms = getListRoom();
+        Scanner sc =new Scanner(System.in);
+        System.out.printf("%-10s %-15s %-15s %-10s","ID Room", "Name Room", "Cost", "Status");
+        room.OutputRoom();
     }
 
+// Ghi vào File
+    private void WriteToRoom(ArrayList<Room> rooms, boolean isWrite){
+        try {
+            FileWriter fileWriter = new FileWriter("Rooms.txt", isWrite);
+            for(Room room : rooms){
+                fileWriter.write(room.getIdRoom() + "\n");
+                fileWriter.write(room.getNameRoom() + "\n");
+                fileWriter.write(room.getCostRoom() + "\n");
+                fileWriter.write(room.getRoomStatus() + "\n");
+            }
+            fileWriter.close();
+        } catch (IOException e) {
+            System.out.println("Error" + e.getMessage());
+        }
+    }
     /// THÊM PHÒNG
     public void AddRoom(){
         Scanner sc = new Scanner(System.in);
-        System.out.print("ID Room : ");
-        int idRoom = sc.nextInt();
-        sc.nextLine();
-        System.out.print("Name Room : ");
-        String nameRoom = sc.nextLine();
-        System.out.print("Cost Room : ");
-        double costRoom = sc.nextDouble();
+        Room room= new Room();
+        room.InputRoom();
         try {
-                FileWriter fileWriter = new FileWriter("Rooms.txt", true);
-                fileWriter.write(idRoom + "\n");
-                fileWriter.write(nameRoom + "\n");
-                fileWriter.write(costRoom + "\n");
-                fileWriter.write("Available" + "\n");
-                fileWriter.close();
-            } catch (IOException e) {
-                System.out.println("Error" + e.getMessage());
-            }
+            FileWriter fileWriter = new FileWriter("Rooms.txt", true);
+            fileWriter.write(room.getIdRoom() + "\n");
+            fileWriter.write(room.getNameRoom()+ "\n");
+            fileWriter.write(room.getCostRoom()+ "\n");
+            fileWriter.write("Available" + "\n");
+            fileWriter.close();
+        } catch (IOException e) {
+            System.out.println("Error" + e.getMessage());
+        }
     }
-
+    /// TÌM PHÒNG
+    public Room FindRoom(ArrayList<Room> rooms){
+        Scanner sc= new Scanner(System.in);
+        System.out.println("1 : ID Room");
+        System.out.println("2 : Name Room ");
+        System.out.println("3 : Cost Room");
+        System.out.println();
+        System.out.print("Enter choice: ");
+        int choice = sc.nextInt();
+        ClearScreen();
+        switch(choice){
+            case 1:
+                ShowListRoom();
+                System.out.println();
+                System.out.print("Enter ID : ");
+                int idNeedFind = sc.nextInt();
+                ClearScreen();
+                for(Room room: rooms){
+                    if(idNeedFind == room.getIdRoom()) {
+                        return room;
+                    }
+                }
+                System.out.println("ID is not Found");
+                sc.nextLine();
+                sc.nextLine();
+                ClearScreen();
+                break;
+            case 2:
+                sc.nextLine();
+                ShowListRoom();
+                System.out.println();
+                System.out.print("Enter Name : ");
+                String nameNeedFind = sc.nextLine();
+                ClearScreen();
+                for(Room room: rooms){
+                    if(room.getNameRoom().equals(nameNeedFind)) {
+                        return room;
+                    }
+                }
+                System.out.println("Name is not Found");
+                sc.nextLine();
+                ClearScreen();
+                break;
+            case 3:
+                sc.nextLine();
+                ShowListRoom();
+                System.out.println();
+                System.out.print("Enter Cost Room : ");
+                double costNeedToFind = sc.nextDouble();
+                ClearScreen();
+                for(Room room: rooms){
+                    if(room.getCostRoom()==costNeedToFind) {
+                        return room;
+                    }
+                }
+                System.out.println("Cost is not Found");
+                sc.nextLine();
+                break;
+            default:
+                System.out.println("Error choice!");
+        }
+        int check;
+        int reChoice;
+        ClearScreen();
+        do{
+            check = 1;
+            System.out.println("1 : Return");
+            System.out.println("2 : Retry");
+            System.out.println();
+            System.out.println("Please Input Your Choice");
+            reChoice = sc.nextInt();
+            if(reChoice > 2 || reChoice <= 0) {
+                check = 0;
+                System.out.println("The Choice is not Found");
+            }
+            ClearScreen();
+        }while(check == 0);
+        if(reChoice == 2) return FindRoom(rooms);
+        return null;
+    }
+//    Sau khi tìm, xuất thông tin phòng
+    public void FindAndShowRooms(){
+    Scanner sc = new Scanner(System.in);
+    System.out.println("---- Find ----");
+    ArrayList<Room> rooms = getListRoom();
+    ClearScreen();
+    ShowListRoom();
+    System.out.println();
+    System.out.println("----Find By----");
+    Room room=FindRoom(rooms);
+    ClearScreen();
+    if(room == null) return;
+    room.OutputRoom();
+    sc.nextLine();
+}
     /// XÓA PHÒNG
     public void DeleteRoom(){
         Scanner sc = new Scanner(System.in);
         ArrayList<Room> rooms = getListRoom();
+        ShowListRoom();
+        System.out.println();
         System.out.print("Input ID Room To Delete : ");
         int idRoom = sc.nextInt();
         sc.nextLine();
+        ClearScreen();
         int check = 0;
-        System.out.println();
         Room r = new Room();
         for(Room room : rooms){
             if(idRoom == room.getIdRoom()){
@@ -99,138 +197,95 @@ public class ListRoom{
         if(check == 0){
             System.out.println("ID is not Founded");
             sc.nextLine();
+            ClearScreen();
             return;
         }
-        UpdateFile(rooms);
+        WriteToRoom(rooms, false);
         if(check >= 1){
             System.out.println("Deleted");
             sc.nextLine();
+            ClearScreen();
         }
     }
 
+
     /// SỬA THÔNG TIN PHÒNG
-    public void EditRoom(){
-        Scanner sc = new Scanner(System.in);
-        ArrayList<Room> rooms = getListRoom();
+    public void EditRooms(){
+        ArrayList<Room> rooms = new ArrayList<>();
+        rooms = getListRoom();
+        ClearScreen();
+        Room room =FindByIDandCost(rooms);
+        room.EditRoom();
+
+        WriteToRoom(rooms,false);
+    }
+
+    private Room FindByIDandCost(ArrayList<Room> rooms){
+        ShowListRoom();
+        System.out.println();
+        Scanner sc= new Scanner(System.in);
+        System.out.println("1 : Find By ID Room");
+        System.out.println("2 : Find By Name Room ");
+        System.out.println();
+        System.out.print("Enter choice: ");
+        int choice = sc.nextInt();
         ClearScreen();
         ShowListRoom();
         System.out.println();
-        System.out.print("Input ID Room To Fix : ");
-        int idRoom = sc.nextInt();
-        ClearScreen();
-        for(Room room : rooms){
-            if(idRoom == room.getIdRoom()){
-                System.out.println("ID    Name       Cost          Status");
-                System.out.println(room.getIdRoom() + "  " + room.getNameRoom() + "   " + room.getCostRoom() + "     " + room.getRoomStatus());
-            }
-        }
-        System.out.println();
-        EditRoomMenu(idRoom);
-    }
-
-    ///  MENU SỬA PHÒNG
-    private void EditRoomMenu(int idRoom){
-        Scanner sc = new Scanner(System.in);
-        ArrayList<Room> rooms = getListRoom();
-        int isChoose = 0;
-        int changeChoice = 0;
-        do{
-            isChoose = 1;
-            System.out.println("1 : Change ID Room");
-            System.out.println("2 : Change Name Room");
-            System.out.println("3 : Change Cost");
-            System.out.println();
-            System.out.print("Please Input Your Order : ");
-            changeChoice = sc.nextInt();
-            if(changeChoice > 3 || changeChoice <= 0){
-                isChoose = 0;
-                System.out.println("There is no Choice Found");
-                sc.nextLine();
-            }
-        }while(isChoose != 1);
-        ClearScreen();
-        sc.nextLine();
-        String changeText = "";
-        int newIDRoom = 0;
-        float changeCost = 0f;
-        switch (changeChoice) {
+        switch(choice){
             case 1:
-                System.out.print("ID Room : ");
-                newIDRoom = sc.nextInt();
+                System.out.print("Enter ID Room : ");
+                int idNeedFind = sc.nextInt();
+                ClearScreen();
+                for(Room room: rooms){
+                    if(idNeedFind == room.getIdRoom()) {
+                        return room;
+                    }
+                }
+                System.out.println("ID is not Found");
+                sc.nextLine();
+                sc.nextLine();
+                ClearScreen();
                 break;
             case 2:
-                System.out.print("Name Room : ");
-                changeText = sc.nextLine();
-                break;
-            case 3:
-                System.out.print("Cost Room : ");
-                changeCost = sc.nextFloat();
                 sc.nextLine();
+                System.out.print("Enter Name Room : ");
+                String nameNeedFind = sc.nextLine();
+                ClearScreen();
+                for(Room room: rooms){
+                    if(room.getNameRoom().equals(nameNeedFind)) {
+                        return room;
+                    }
+                }
+                System.out.println("Name is not Found");
+                sc.nextLine();
+                ClearScreen();
                 break;
             default:
-                break;
+                System.out.println("Error choice!");
         }
-
-        for(Room room : rooms){
-            if(idRoom == room.getIdRoom()){
-
-                if(changeChoice == 1){
-                    room.setIdRoom(newIDRoom);
-                }
-                if(changeChoice == 2){
-                    room.setNameRoom(changeText);
-                }
-                if(changeChoice == 3){
-                    room.setCostRoom(changeCost);
-                }
-            }
-        }
+        int check;
+        int reChoice;
         ClearScreen();
-        WriteFile(rooms);
-        System.out.println("Change is successful");
-        sc.nextLine();
-    }
-
-    /// GHI VÀO FILE DANH SÁCH MỚI
-
-    private void WriteFile(ArrayList<Room> rooms){
-        try {
-                FileWriter fileWriter = new FileWriter("Rooms.txt", false);
-                for(Room room : rooms){
-                    fileWriter.write(room.getIdRoom() + "\n");
-                    fileWriter.write(room.getNameRoom() + "\n");
-                    fileWriter.write(room.getCostRoom() + "\n");
-                    fileWriter.write(room.getRoomStatus() + "\n");
-                }
-                fileWriter.close();
-            } catch (IOException e) {
-                System.out.println("Error" + e.getMessage());
+        do{
+            check = 1;
+            System.out.println("1 : Return");
+            System.out.println("2 : Retry");
+            System.out.println();
+            System.out.println("Please Input Your Choice");
+            reChoice = sc.nextInt();
+            if(reChoice > 2 || reChoice <= 0) {
+                check = 0;
+                System.out.println("The Choice is not Found");
             }
+            ClearScreen();
+        }while(check == 0);
+        if(reChoice == 2) return FindByIDandCost(rooms);
+        return null;
     }
+    
 
-
-    /// TÌM PHÒNG
-    public void FindRoom(){
-        Scanner sc = new Scanner(System.in);
-        ArrayList<Room> rooms = getListRoom();
-        System.out.print("Input ID Room To Find : ");
-        int idRoom = sc.nextInt();
-        ClearScreen();
-        for(Room room : rooms){
-            if(idRoom == room.getIdRoom()){
-                System.out.println("ID    Name       Cost          Status");
-                System.out.println(room.getIdRoom() + "  " + room.getNameRoom() + "   " + room.getCostRoom() + "     " + room.getRoomStatus());
-                sc.nextLine();
-                sc.nextLine();
-                return;
-            }
-        }
-        System.out.println("Room is not Founded");
-        sc.nextLine();
-        sc.nextLine();
-
-    }
-
+    /// Tìm giá theo id phòng
     public double FindCostRoomById(int idRoom){
         Scanner sc = new Scanner(System.in);
         ArrayList<Room> rooms = getListRoom();
@@ -255,7 +310,7 @@ public class ListRoom{
             System.out.println();
             System.out.println("1 : Add Room");
             System.out.println("2 : Delete Room");
-            System.out.println("3 : Fix Room");
+            System.out.println("3 : Edit Room");
             System.out.println("4 : Find Room");
             System.out.println("5 : Return");
             System.out.println();
@@ -271,11 +326,11 @@ public class ListRoom{
                     DeleteRoom();
                     break;
                 case 3 :
-                    EditRoom();
+                    EditRooms();
                     break;
                 case 4:
                     ClearScreen();
-                    FindRoom();
+                    FindAndShowRooms();
                     break;
                 default:
                     break;

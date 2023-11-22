@@ -21,6 +21,12 @@ public class Security extends Staff {
     public void setNumberDayOfWork(int numberDayOfWork) {
         this.numberDayOfWork = numberDayOfWork;
     }
+
+    private void ClearScreen(){
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
     public void Input(){
         Scanner sc= new Scanner(System.in);
         super.Input();
@@ -30,7 +36,8 @@ public class Security extends Staff {
     public void Output(){
         Scanner sc = new Scanner(System.in);
         super.Output();
-        System.out.println(getNumberDayOfWork() + "\t" + PayRoll()+ " VND");
+        System.out.printf("%-5s %-10s %-20s\n","", getNumberDayOfWork(),PayRoll());
+
     }
     @Override public double PayRoll(){
         return numberDayOfWork*200000;
@@ -39,6 +46,9 @@ public class Security extends Staff {
         Scanner sc=new Scanner(System.in);
         int choice;
         do {
+            ClearScreen();
+            Output();
+            System.out.println();
             System.out.println("What do you want to do? ");
             System.out.println("1. Edit All Information");
             System.out.println("2. Edit Name");
@@ -48,20 +58,25 @@ public class Security extends Staff {
             System.out.println("6. Edit Email");
             System.out.println("7. Edit phone number");
             System.out.println("8. Edit number day of work");
-            System.out.println("9. Show All Staff's Information after Edit");
-            System.out.print("10. Finish");
+            System.out.println("9. Finish");
             System.out.println();
             System.out.print("Enter your choice: ");
             choice = sc.nextInt();
+            ClearScreen();
             switch (choice) {
                 case 1:
-                    sc.nextLine();
+                    System.out.print("Enter new Name: ");
                     setName(sc.nextLine());
                     super.InputDateOfBirth();
-                    setGender(sc.nextLine());
+                    System.out.print("Enter new Gender: ");
+                    InputGender();
+                    System.out.print("Enter new Address: ");
                     setAddress(sc.nextLine());
+                    System.out.print("Enter new Email: ");
                     setEmail(sc.nextLine());
-                    setPhoneNumber(sc.nextLine());
+                    System.out.print("Enter new phone number: ");
+                    InputPhoneNumber();
+                    System.out.print("Enter new Day of Work: ");
                     setNumberDayOfWork(sc.nextInt());
 
                     break;
@@ -78,7 +93,7 @@ public class Security extends Staff {
                 case 4:
                     sc.nextLine();
                     System.out.print("Enter new Gender: ");
-                    setGender(sc.nextLine());
+                    InputGender();
                     break;
                 case 5:
                     sc.nextLine();
@@ -93,17 +108,13 @@ public class Security extends Staff {
                 case 7:
                     sc.nextLine();
                     System.out.print("Enter new phone number: ");
-                    setPhoneNumber(sc.nextLine());
+                    InputPhoneNumber();
                     break;
                 case 8:
-                    System.out.print("Enter new number of room: ");
+                    System.out.print("Enter new Day of Work: ");
                     setNumberDayOfWork(sc.nextInt());
                     break;
                 case 9:
-                    Output();
-                    sc.nextLine();
-                    break;
-                case 10:
                     System.out.println("Edit Finished!");
                     break;
                 default:
