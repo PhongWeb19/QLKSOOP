@@ -9,7 +9,6 @@ import java.io.FileNotFoundException;
 
 public class ListStaff {
     ArrayList<Staff> staffs = new ArrayList<Staff>();
-    private int innerFile = 0;
     public ListStaff() {
     }
 
@@ -99,14 +98,10 @@ public class ListStaff {
         int choice=sc.nextInt();
         switch (choice){
             case 1:
-
-                innerFile = 1;
                 return GetListCleaningStaff();
             case 2:
-                innerFile = 2;
                 return GetListSecurity();
             case 3:
-                innerFile = 3;
                 return GetListReceptionist();
         }
 
@@ -114,29 +109,33 @@ public class ListStaff {
     }
 
     /// XUẤT DANH SÁCH NHÂN VIÊN BẤT KỲ
-    public void ShowListStaff(ArrayList<Staff> staffs) {
+    public void ShowListStaff(ArrayList<Staff> staffs){
         for (Staff staff : staffs) {
-            staff.Output();
+            if (staff instanceof Security) {
+                Security s =(Security)staff ;
+                s.Output();
+            } else if (staff instanceof Receptionist) {
+                Receptionist r =(Receptionist)staff;
+                r.Output();
+            } else if(staff instanceof  CleaningStaff){
+                CleaningStaff c =(CleaningStaff)staff;
+                c.Output();
+            }
         }
     }
+
     /// XUẤT DANH SÁCH TẤT CẢ NHÂN VIÊN
     public void ShowAllListStaff(){
         ArrayList<Staff> cs = GetListCleaningStaff();
-        System.out.println("---- Cleaning Staff ----");
-        System.out.println();
-        System.out.printf("%-5s %-10s %-15s %-10s %-20s %-15s %-15s %-15s %-20s\n", "ID", "Name", "Date of Birth", "Gender","Address", "Email", "Phone Number", "Number Of Room", "Salary");
+        System.out.println("---- Cleaning Staff List 1----");
         ShowListStaff(cs);
         System.out.println();
         ArrayList<Staff> sc = GetListSecurity();
-        System.out.println("---- Security ----");
-        System.out.println();
-        System.out.printf("%-5s %-10s %-15s %-10s %-20s %-15s %-15s %-15s %-20s\n", "ID", "Name", "Date of Birth", "Gender","Address", "Email", "Phone Number", "Day of Work", "Salary");
+        System.out.println("---- Security List 2----");
         ShowListStaff(sc);
         System.out.println();
         ArrayList<Staff> rc = GetListReceptionist();
-        System.out.println("---- Receptionist ----");
-        System.out.println();
-        System.out.printf("%-5s %-10s %-15s %-10s %-20s %-15s %-15s %-15s %-25s %-20s\n", "ID", "Name", "Date of Birth", "Gender","Address", "Email", "Phone Number", "baseSalary","coefficientsSalary", "Salary");
+        System.out.println("---- Receptionist List 3----");
         ShowListStaff(rc);
     }
     /// GHI VÀO FILE
@@ -144,8 +143,7 @@ public class ListStaff {
         Scanner sc = new Scanner(System.in);
         try{
             for(Staff staff : staffs){
-                if (innerFile == 1) {
-                    System.out.println("A");
+                if (staff instanceof CleaningStaff) {
                     sc.nextLine();
                     sc.nextLine();
                     FileWriter fileWriter = new FileWriter("CleaningStaffs.txt", isWrite);
@@ -161,8 +159,7 @@ public class ListStaff {
                     fileWriter.write(staff.PayRoll() + "\n");
                     fileWriter.close();
                 }
-                if (innerFile == 2) {
-                    System.out.println("B");
+                if (staff instanceof Security) {
                     FileWriter fileWriter = new FileWriter("Securities.txt", isWrite);
                     if(!isWrite) isWrite = true;
                     fileWriter.write(staff.getId() + "\n");
@@ -176,8 +173,7 @@ public class ListStaff {
                     fileWriter.write(staff.PayRoll() + "\n");
                     fileWriter.close();
                 }
-                else if(innerFile == 3){
-                    System.out.println("C");
+                else if(staff instanceof Receptionist){
                     FileWriter fileWriter = new FileWriter("Receptionists.txt", isWrite);
                     if(!isWrite) isWrite = true;
                     fileWriter.write(staff.getId() + "\n");
@@ -209,6 +205,7 @@ public class ListStaff {
             System.out.println("1 : Cleaning Staff");
             System.out.println("2 : Security");
             System.out.println("3 : Receptionist");
+            System.out.println();
             System.out.print("Enter your choice: ");
             choice = sc.nextInt();
             ClearScreen();
