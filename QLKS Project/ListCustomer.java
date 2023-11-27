@@ -57,6 +57,9 @@ public class ListCustomer {
     }
 //    Ghi vào File
     public void WriteToCustomer(ArrayList<Customer> customers, boolean isWrite){
+        if(customers.isEmpty()){
+            DeleteEmptyCustomer();
+        }
         for(Customer customer : customers){
                 try {
                     FileWriter fileWriter = new FileWriter("Customers.txt", isWrite);
@@ -72,6 +75,16 @@ public class ListCustomer {
                 }catch (IOException e){
                     System.out.println("Error " + e.getMessage());
                 }
+            }
+    }
+
+    private void DeleteEmptyCustomer(){
+        try{
+                FileWriter fileWriter = new FileWriter("Customers.txt", false);
+                fileWriter.close();
+                
+            }catch (IOException e){
+                System.out.println("Error " + e.getMessage());
             }
     }
 // Thêm khách hàng
@@ -104,6 +117,9 @@ public class ListCustomer {
         System.out.println("3 : Phone Number");
         System.out.print("Enter choice: ");
         int choice = sc.nextInt();
+        ClearScreen();
+        ShowAllListCustomer();
+        System.out.println();
         switch(choice){
             case 1:
                 System.out.print("Enter ID : ");

@@ -51,6 +51,7 @@ public class ListRoom{
 
 // Ghi vào File
     private void WriteToRoom(ArrayList<Room> rooms, boolean isWrite){
+        if(rooms.isEmpty()) DeleteEmptyRoom();
         try {
             FileWriter fileWriter = new FileWriter("Rooms.txt", isWrite);
             for(Room room : rooms){
@@ -64,6 +65,17 @@ public class ListRoom{
             System.out.println("Error" + e.getMessage());
         }
     }
+
+    private void DeleteEmptyRoom(){
+        try{
+            FileWriter fileWriter = new FileWriter("Rooms.txt", false);
+            fileWriter.close();
+            
+        }catch (IOException e){
+            System.out.println("Error " + e.getMessage());
+        }
+    }
+
     /// THÊM PHÒNG
     public void AddRoom(){
         Scanner sc = new Scanner(System.in);

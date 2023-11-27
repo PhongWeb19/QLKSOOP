@@ -13,6 +13,7 @@ public class ListStaff {
     }
 
     private int inner = 0;
+    private int innerFileName;
 
     private void ClearScreen(){
         System.out.print("\033[H\033[2J");
@@ -95,7 +96,8 @@ public class ListStaff {
         System.out.println("2 : List Security");
         System.out.println("3 : List Receptionist");
         System.out.print("Enter your choice: ");
-        int choice=sc.nextInt();
+        int choice = sc.nextInt();
+        innerFileName = choice;
         switch (choice){
             case 1:
                 return GetListCleaningStaff();
@@ -142,10 +144,12 @@ public class ListStaff {
     private void WriteToStaff(ArrayList<Staff> staffs, boolean isWrite){
         Scanner sc = new Scanner(System.in);
         try{
+            if(staffs.isEmpty()) {
+                        DeleteEmptyStaff(staffs);
+                        return;
+                    }
             for(Staff staff : staffs){
                 if (staff instanceof CleaningStaff) {
-                    sc.nextLine();
-                    sc.nextLine();
                     FileWriter fileWriter = new FileWriter("CleaningStaffs.txt", isWrite);
                     if(!isWrite) isWrite = true;
                     fileWriter.write(staff.getId() + "\n");
@@ -188,15 +192,39 @@ public class ListStaff {
                     fileWriter.write(staff.PayRoll() + "\n");
                     fileWriter.close();
                 }
-                else {
-                    FileWriter fileWriter = new FileWriter("Receptionists.txt", isWrite);
-                    fileWriter.close();
-                }
             }
         }catch (IOException e){
             System.out.println("Error " + e.getMessage());
         }
     }
+
+    /// KIỂM TRA DƯ LIỆU RỖNG HAY KHÔNG
+    private void DeleteEmptyStaff(ArrayList<Staff> staffs){
+        Scanner sc = new Scanner(System.in);
+        String fileName = "";
+        switch (innerFileName) {
+            case 1:
+                fileName = "CleaningStaffs.txt";
+                break;
+            case 2:
+                fileName = "Securities.txt";
+                break;
+            case 3:
+                fileName = "Receptionists.txt";
+                break;
+        
+            default:
+                break;
+        }
+        try{
+                FileWriter fileWriter = new FileWriter(fileName, false);
+                fileWriter.close();
+                
+            }catch (IOException e){
+                System.out.println("Error " + e.getMessage());
+            }
+    }
+
     /// THÊM NHÂN VIÊN
     public void AddStaff() {
         Scanner sc = new Scanner(System.in);
