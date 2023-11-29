@@ -36,6 +36,9 @@ public class ListRoom{
     public void ShowListRoom(){
         ArrayList<Room> rooms = getListRoom();
         Scanner sc =new Scanner(System.in);
+        System.out.println("      +-----------------------------------+");
+        System.out.println("      |           List Room               |");
+        System.out.println("      +-----------------------------------+");
         System.out.printf("%-10s %-15s %-15s %-10s\n","ID Room", "Name Room", "Cost", "Status");
         for(Room room : rooms){
             room.OutputRoom();
@@ -95,9 +98,11 @@ public class ListRoom{
     /// TÌM PHÒNG
     public Room FindRoom(ArrayList<Room> rooms){
         Scanner sc= new Scanner(System.in);
-        System.out.println("1 : ID Room");
-        System.out.println("2 : Name Room ");
-        System.out.println("3 : Cost Room");
+        System.out.println("+-----------------------+");
+        System.out.println("| 1 : ID Room           |");
+        System.out.println("| 2 : Name Room         |");
+        System.out.println("| 3 : Cost Room         |");
+        System.out.println("+-----------------------+");
         System.out.println();
         System.out.print("Enter choice: ");
         int choice = sc.nextInt();
@@ -320,11 +325,13 @@ public class ListRoom{
             Scanner sc = new Scanner(System.in);
             ShowListRoom();
             System.out.println();
-            System.out.println("1 : Add Room");
-            System.out.println("2 : Delete Room");
-            System.out.println("3 : Edit Room");
-            System.out.println("4 : Find Room");
-            System.out.println("5 : Return");
+            System.out.println("+-----------------------+");
+            System.out.println("| 1 : Add Room          |");
+            System.out.println("| 2 : Delete Room       |");
+            System.out.println("| 3 : Edit Room         |");
+            System.out.println("| 4 : Find Room         |");
+            System.out.println("| 5 : Return            |");
+            System.out.println("+-----------------------+");
             System.out.println();
             System.out.print("Please Input Your Choice : ");
             roomChoice = sc.nextInt();

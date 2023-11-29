@@ -58,11 +58,13 @@ public class MainMenuInterface{
         do{
             ClearScreen();
             isChoose = 1;
-            System.out.println("1 : Exit");
-            System.out.println("2 : Staff Manager");
-            System.out.println("3 : Room Manager");
-            System.out.println("4 : Customer Manager");
-            System.out.println("5 : Booking Manager");
+            System.out.println("+------------------------------+");
+            System.out.println("| 1 : Exit                     |");
+            System.out.println("| 2 : Staff Manager            |");
+            System.out.println("| 3 : Room Manager             |");
+            System.out.println("| 4 : Customer Manager         |");
+            System.out.println("| 5 : Booking Manager          |");
+            System.out.println("+------------------------------+");
             System.out.println();
             System.out.print("Please Input Your Choice: ");
             choice = sc.nextInt();

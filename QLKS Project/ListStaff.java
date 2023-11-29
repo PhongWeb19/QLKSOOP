@@ -92,9 +92,11 @@ public class ListStaff {
         ArrayList<Staff> staffs = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
         System.out.println();
-        System.out.println("1 : List Cleaning Staff");
-        System.out.println("2 : List Security");
-        System.out.println("3 : List Receptionist");
+        System.out.println("+------------------------------+");
+        System.out.println("| 1 : List Cleaning Staff      |");
+        System.out.println("| 2 : List Security            |");
+        System.out.println("| 3 : List Receptionist        |");
+        System.out.println("+------------------------------+");
         System.out.print("Enter your choice: ");
         int choice = sc.nextInt();
         innerFileName = choice;
@@ -112,32 +114,42 @@ public class ListStaff {
 
     /// XUẤT DANH SÁCH NHÂN VIÊN BẤT KỲ
     public void ShowListStaff(ArrayList<Staff> staffs){
-        for (Staff staff : staffs) {
+        for(Staff staff : staffs){
             if (staff instanceof Security) {
-                Security s =(Security)staff ;
-                s.Output();
+                System.out.printf("%-5s %-10s %-15s %-10s %-20s %-15s %-15s %-15s %-20s\n", "ID", "Name", "Date of Birth", "Gender","Address", "Email", "Phone Number", "Day of Work", "Salary");
+                
             } else if (staff instanceof Receptionist) {
-                Receptionist r =(Receptionist)staff;
-                r.Output();
+                System.out.printf("%-5s %-10s %-15s %-10s %-20s %-15s %-15s %-15s %-25s %-20s\n", "ID", "Name", "Date of Birth", "Gender","Address", "Email", "Phone Number", "baseSalary","coefficientsSalary", "Salary");
+                
             } else if(staff instanceof  CleaningStaff){
-                CleaningStaff c =(CleaningStaff)staff;
-                c.Output();
+                System.out.printf("%-5s %-10s %-15s %-10s %-20s %-15s %-15s %-15s %-20s\n", "ID", "Name", "Date of Birth", "Gender","Address", "Email", "Phone Number", "Number Of Room", "Salary");
             }
+            break;
         }
+        for (Staff staff : staffs) {
+            staff.Output();
+        }
+
     }
 
     /// XUẤT DANH SÁCH TẤT CẢ NHÂN VIÊN
     public void ShowAllListStaff(){
         ArrayList<Staff> cs = GetListCleaningStaff();
-        System.out.println("---- Cleaning Staff List 1----");
+        System.out.println("      +-------------------------+");
+        System.out.println("      |---- Cleaning Staff -----|");
+        System.out.println("      +-------------------------+");
         ShowListStaff(cs);
         System.out.println();
         ArrayList<Staff> sc = GetListSecurity();
-        System.out.println("---- Security List 2----");
+        System.out.println("      +-------------------------+");
+        System.out.println("      |---- Security Staff -----|");
+        System.out.println("      +-------------------------+");
         ShowListStaff(sc);
         System.out.println();
         ArrayList<Staff> rc = GetListReceptionist();
-        System.out.println("---- Receptionist List 3----");
+        System.out.println("      +-------------------------+");
+        System.out.println("      |--- Receptionist Staff---|");
+        System.out.println("      +-------------------------+");
         ShowListStaff(rc);
     }
     /// GHI VÀO FILE
@@ -228,6 +240,7 @@ public class ListStaff {
     /// THÊM NHÂN VIÊN
     public void AddStaff() {
         Scanner sc = new Scanner(System.in);
+        ArrayList<Staff> staffs = new ArrayList<Staff>();
         int choice;
             System.out.println("Choice Type of Staff");
             System.out.println("1 : Cleaning Staff");
@@ -430,11 +443,13 @@ public class ListStaff {
             Scanner sc = new Scanner(System.in);
             ShowAllListStaff();
             System.out.println();
-            System.out.println("1 : Add Staff");
-            System.out.println("2 : Delete Staff");
-            System.out.println("3 : Edit Staff");
-            System.out.println("4 : Find Staff");
-            System.out.println("5 : Return");
+            System.out.println("+------------------------------+");
+            System.out.println("| 1 : Add Staff                |");
+            System.out.println("| 2 : Delete Staff             |");
+            System.out.println("| 3 : Edit Staff               |");
+            System.out.println("| 4 : Find Staff               |");
+            System.out.println("| 5 : Return                   |");
+            System.out.println("+------------------------------+");
             System.out.println();
             System.out.print("Please Input Your Choice : ");
             roomChoice = sc.nextInt();

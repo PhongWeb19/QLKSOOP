@@ -112,9 +112,11 @@ public class ListCustomer {
 //    Tim kiem Khach hàng
     public Customer FindCustomer(ArrayList<Customer> customers){
         Scanner sc= new Scanner(System.in);
-        System.out.println("1 : ID");
-        System.out.println("2 : Name ");
-        System.out.println("3 : Phone Number");
+        System.out.println("+-----------------------+");
+        System.out.println("| 1 : ID                |");
+        System.out.println("| 2 : Name              |");
+        System.out.println("| 3 : Phone Number      |");
+        System.out.println("+-----------------------+");
         System.out.print("Enter choice: ");
         int choice = sc.nextInt();
         ClearScreen();
@@ -232,11 +234,13 @@ public class ListCustomer {
             ClearScreen();
             ShowAllListCustomer();
             System.out.println();
-            System.out.println("1 : Add Customer");
-            System.out.println("2 : Delete Customer");
-            System.out.println("3 : Edit Customer");
-            System.out.println("4 : Find Customer");
-            System.out.println("5 : Exit");
+            System.out.println("+-----------------------+");
+            System.out.println("| 1 : Add Customer      |");
+            System.out.println("| 2 : Delete Customer   |");
+            System.out.println("| 3 : Edit Customer     |");
+            System.out.println("| 4 : Find Customer     |");
+            System.out.println("| 5 : Exit              |");
+            System.out.println("+-----------------------+");
             System.out.println();
             System.out.print("Please Input Your Order : ");
             choice = sc.nextInt();

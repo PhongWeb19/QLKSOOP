@@ -70,10 +70,10 @@ public class ListBooking {
 
     // Thêm Booking
     public void AddBooking(){
-        ListStaff a = new ListStaff();
+        ListStaff staffs = new ListStaff();
         ArrayList<Staff> c = new ArrayList<>();
-        c=a.GetListReceptionist();   
-        a.ShowListStaff(c);
+        c = staffs.GetListReceptionist();   
+        //staffs.ShowListStaff(c);
         Booking booking = new Booking();
         booking.Input();
         ListBookingDetail lbd = new ListBookingDetail();
@@ -307,11 +307,13 @@ public class ListBooking {
             ClearScreen();
             ShowListBooking();
             System.out.println();
-            System.out.println("1 : Add Booking");
-            System.out.println("2 : Delete Booking");
-            System.out.println("3 : Edit Booking");
-            System.out.println("4 : Find Booking");
-            System.out.println("5 : Exit");
+            System.out.println("+-----------------------------------+");
+            System.out.println("| 1 : Add Booking                   |");
+            System.out.println("| 2 : Delete Booking                |");
+            System.out.println("| 3 : Edit Booking                  |");
+            System.out.println("| 4 : Find Booking                  |");
+            System.out.println("| 5 : Exit                          |");
+            System.out.println("+-----------------------------------+");
             System.out.println();
             System.out.print("Please Input Your Order : ");
             choice = sc.nextInt();

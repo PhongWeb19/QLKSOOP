@@ -42,6 +42,7 @@ public class Receptionist extends Staff{
         super.Input();
         System.out.print("Enter basic salary: ");
         baseSalary=sc.nextDouble();
+        ClearScreen();
         System.out.print("Enter coefficients salary: ");
         coefficientsSalary=sc.nextDouble();
     }

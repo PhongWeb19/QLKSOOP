@@ -1,6 +1,7 @@
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Person {
     private int id;
@@ -164,9 +165,19 @@ public class Person {
         do{
             check = 1;
             System.out.print("Enter Phone Number : ");
-            phoneNumber=sc.nextLine();
+            if(sc.hasNextInt())phoneNumber=sc.nextLine();
+            else{
+                ClearScreen();
+                System.out.println("Error Input PhoneNumber");
+                sc.nextLine();
+                sc.nextLine();
+                check = 0;
+                ClearScreen();
+                continue;
+            }
             if(phoneNumber.length() != 10){
                 System.out.println("Error Not Enough 10 Number");
+                ClearScreen();
                 check = 0;
             }
 
@@ -176,20 +187,24 @@ public class Person {
     public void Input(){
 
             Scanner sc= new Scanner(System.in);
-            System.out.print("Enter ID: ");
-            id=sc.nextInt();
-            sc.nextLine();
+            InputID();
+            ClearScreen();
             System.out.print("Enter full name: ");
             name=sc.nextLine();
+            ClearScreen();
 //        Khúc này là nhập ngày tháng năm sinh
             InputDateOfBirth();
+            ClearScreen();
             InputGender();
+            ClearScreen();
             System.out.print("Enter address: ");
             address=sc.nextLine();
+            ClearScreen();
             System.out.print("Enter email: ");
             email=sc.nextLine();
+            ClearScreen();
             InputPhoneNumber();
-
+            ClearScreen();
     }
     public void Output(){
         Scanner sc = new Scanner(System.in);
@@ -208,7 +223,64 @@ public class Person {
         p.Output();
     }
 
+    private void InputID(){
+        Scanner sc = new Scanner(System.in);
+        int isChoose;
+        int[] listID = GetListID();
+        do{  
+            isChoose = 1;
+            System.out.print("Enter ID: ");
+            if(sc.hasNextInt()) id = sc.nextInt();
+            else{
+                ClearScreen();
+                System.out.println("Error Input ID");
+                sc.nextLine();
+                sc.nextLine();
+                isChoose = 0;
+                ClearScreen();
+                continue;
+            }
+            ClearScreen();
+            for(int i = 1; i <= listID[0]; i++){
+                if(id == listID[i]) {
+                    System.out.println("ID is Available, Rertry");
+                    sc.nextLine();
+                    sc.nextLine();
+                    ClearScreen();
+                    isChoose = 0;
+                }
+            }
+        }while(isChoose == 0);
+        
 
+    }
+
+    public int[] GetListID(){
+        int[] listID = new int[10000];
+        int count = 0;
+        ListStaff ls = new ListStaff();
+        ListCustomer lc = new ListCustomer();
+        ArrayList<Staff> staffs = new ArrayList<>();
+        ArrayList<Customer> customers = new ArrayList<>();
+        staffs = ls.GetListCleaningStaff();
+        for(Staff staff : staffs){
+            listID[++count] = staff.getId();
+        }
+        staffs = ls.GetListReceptionist();
+        for(Staff staff : staffs){
+            listID[++count] = staff.getId();
+        }
+        staffs = ls.GetListSecurity();
+        for(Staff staff : staffs){
+            listID[++count] = staff.getId();
+        }
+        customers = lc.GetListCustomer();
+        for(Customer customer : customers){
+            listID[++count] = customer.getId();
+        }
+        listID[0] = count;
+        return listID;
+    }
 }
 
 
